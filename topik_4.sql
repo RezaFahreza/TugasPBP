@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2023 at 06:38 PM
+-- Generation Time: Oct 22, 2023 at 08:35 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -34,6 +34,13 @@ CREATE TABLE `apply_loker` (
   `tgl_apply` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `apply_loker`
+--
+
+INSERT INTO `apply_loker` (`idapply`, `idloker`, `noktp`, `tgl_apply`) VALUES
+('apply01', '1', 12345, '23 Oktober 2023');
+
 -- --------------------------------------------------------
 
 --
@@ -63,7 +70,7 @@ CREATE TABLE `loker` (
 --
 
 INSERT INTO `loker` (`idloker`, `idperusahaan`, `nama`, `tipe`, `usia_min`, `usia_max`, `gaji_min`, `gaji_max`, `nama_cp`, `email_cp`, `no_telp_cp`, `tgl_update`, `tgl_aktif`, `tgl_tutup`, `status`) VALUES
-('1', 'p1', 'IT Support', 'full-time', 18, 40, 2000, 8000, 'rozak', 'rozak@gmail.com', 81234, '22 Oktober 2023', '29 Oktober 2023', '5 November 2023', 'terbuka');
+('1', 'p1', 'IT Support', 'full-time', 18, 40, 2000, 8000, 'rozak', 'rozak@gmail.com', 81234, '22 Oktober 2023', '29 Oktober 2023', '5 November 2023', '1');
 
 -- --------------------------------------------------------
 
@@ -84,8 +91,16 @@ CREATE TABLE `pencaker` (
   `no_telp` int(15) NOT NULL,
   `foto` varchar(20) NOT NULL,
   `tgl_daftar` varchar(30) NOT NULL,
-  `file_ktp` varchar(20) NOT NULL
+  `file_ktp` varchar(20) NOT NULL,
+  `idtahapan` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pencaker`
+--
+
+INSERT INTO `pencaker` (`noktp`, `nama`, `password`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `kota`, `email`, `no_telp`, `foto`, `tgl_daftar`, `file_ktp`, `idtahapan`) VALUES
+(12345, 'Victor', 'victor123', 'L', 'Wonogiri', '1 Januari 2003', 'Solo, kartosuro', 'Semarang', 'piktor@gmail.com', 8123456, 'piktor.jpg', '23 Oktober 2023', 'ktppiktor.jpg', 't1');
 
 -- --------------------------------------------------------
 
@@ -118,6 +133,13 @@ CREATE TABLE `petugas` (
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `petugas`
+--
+
+INSERT INTO `petugas` (`idpetugas`, `nama`, `email`, `password`) VALUES
+('001', 'Daril', 'daril@gmail.com', 'daril123');
+
 -- --------------------------------------------------------
 
 --
@@ -128,6 +150,13 @@ CREATE TABLE `tahapan` (
   `idtahapan` varchar(20) NOT NULL,
   `nama` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tahapan`
+--
+
+INSERT INTO `tahapan` (`idtahapan`, `nama`) VALUES
+('t1', 'wawancara');
 
 -- --------------------------------------------------------
 
@@ -141,6 +170,13 @@ CREATE TABLE `tahapan_apply` (
   `nilai` varchar(20) NOT NULL,
   `tgl_update` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tahapan_apply`
+--
+
+INSERT INTO `tahapan_apply` (`idapply`, `idtahapan`, `nilai`, `tgl_update`) VALUES
+('apply01', 't1', 'Bagus', '24 Oktober 2023');
 
 --
 -- Indexes for dumped tables
@@ -165,7 +201,8 @@ ALTER TABLE `loker`
 -- Indexes for table `pencaker`
 --
 ALTER TABLE `pencaker`
-  ADD PRIMARY KEY (`noktp`);
+  ADD PRIMARY KEY (`noktp`),
+  ADD KEY `idtahapan` (`idtahapan`);
 
 --
 -- Indexes for table `perusahaan`
@@ -200,7 +237,7 @@ ALTER TABLE `tahapan_apply`
 -- AUTO_INCREMENT for table `pencaker`
 --
 ALTER TABLE `pencaker`
-  MODIFY `noktp` int(17) NOT NULL AUTO_INCREMENT;
+  MODIFY `noktp` int(17) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12346;
 
 --
 -- Constraints for dumped tables
@@ -218,6 +255,12 @@ ALTER TABLE `apply_loker`
 --
 ALTER TABLE `loker`
   ADD CONSTRAINT `loker_ibfk_1` FOREIGN KEY (`idperusahaan`) REFERENCES `perusahaan` (`idperusahaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pencaker`
+--
+ALTER TABLE `pencaker`
+  ADD CONSTRAINT `pencaker_ibfk_1` FOREIGN KEY (`idtahapan`) REFERENCES `tahapan` (`idtahapan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tahapan_apply`
