@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php include('../header.html'); ?>
 <div class="container mt-5">
-    <h1>Delete Book</h1>
-    <p>Anda yakin ingin menghapus buku dengan ID <?php echo $idloker; ?> Bernama "<?php echo $nama; ?>"?</p>
+    <h1>Delete Loker</h1>
+    <p>Anda yakin ingin menghapus Loker dengan ID <?php echo $idloker; ?>  "<?php echo $nama; ?>"?</p>
     <form method="POST">
         <button type="submit" class="btn btn-danger">Hapus</button>
         <a href="../index_loker.php" class="btn btn-secondary">Batal</a>
