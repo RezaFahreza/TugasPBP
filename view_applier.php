@@ -50,30 +50,6 @@ if (isset($_POST['action'])) {
 
 <?php include('header.html') ?>
 
-<?php 
-if (isset($_GET['noktp'])) {
-    $noktp = $_GET['noktp'];
-
-    // Query untuk mengambil idloker berdasarkan noktp
-    $queryIdLoker = "SELECT DISTINCT apply_loker.idloker
-                    FROM apply_loker
-                    WHERE apply_loker.noktp = '$noktp'";
-    $resultIdLoker = $db->query($queryIdLoker);
-
-    if (!$resultIdLoker) {
-        die("Could not query the database: <br />" . $db->error . "<br>Query:" . $queryIdLoker);
-    }
-
-    if ($resultIdLoker->num_rows > 0) {
-        // Loop melalui hasil query untuk mengambil idloker yang sesuai
-        $idLokerArray = array();
-        while ($rowIdLoker = $resultIdLoker->fetch_object()) {
-            $idLokerArray[] = $rowIdLoker->idloker;
-        }
-    }
-}
-?>
-
 <?php
 if (isset($_GET['noktp'])) {
     $noktp = $_GET['noktp'];

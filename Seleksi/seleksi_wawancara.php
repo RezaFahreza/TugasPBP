@@ -77,14 +77,15 @@ if (isset($_GET['idloker'])) {
 
         foreach ($seleksi as $noktp => $status) {
             // Update the status of the applier (lolos or tidak lolos) in tahapan_apply
-            $updateQuery = "UPDATE tahapan_apply
-                            SET idtahapan = '" . ($status == 'lolos' ? 't3' : 'tidak_lolos') . "'
-                            WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp' AND idloker = $idloker)";
-            $db->query($updateQuery);
-
+            if ($status == 'lolos') {
+                $updateQuery = "UPDATE tahapan_apply
+                                SET idtahapan = '" . ($status == 'lolos' ? 't3' : 'tidak_lolos') . "'
+                                WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp' AND idloker = $idloker)";
+                $db->query($updateQuery);
+            }
             // If not lolos, remove the applier from apply_loker
-            if ($status != 'lolos') {
-                $deleteQuery = "DELETE FROM apply_loker WHERE noktp = '$noktp' AND idloker = $idloker";
+            elseif ($status == 'tidak_lolos') {
+                $deleteQuery = "DELETE FROM tahapan_apply WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp')";
                 $db->query($deleteQuery);
             }
         }
