@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2023 at 04:18 PM
+-- Generation Time: Oct 28, 2023 at 07:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,7 +39,8 @@ CREATE TABLE `apply_loker` (
 --
 
 INSERT INTO `apply_loker` (`idapply`, `idloker`, `noktp`, `tgl_apply`) VALUES
-('apply01', '1', 12345, '23 Oktober 2023');
+('apply01', '1', 12345, '23 Oktober 2023'),
+('apply02', '1', 1234567, '23 Oktober 2023');
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,8 @@ CREATE TABLE `pencaker` (
 --
 
 INSERT INTO `pencaker` (`noktp`, `nama`, `password`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `kota`, `email`, `no_telp`, `foto`, `tgl_daftar`, `file_ktp`, `idtahapan`) VALUES
-(12345, 'piktor', 'victor123', 'L', 'wonogiri', '1 Januari 2003', 'casablanca', 'bekasi', 'piktor@gmail.com', 8123456, 'piktor.jpg', '23 Oktober 2023', 'ktppiktor.jpg', 't1');
+(12345, 'piktor', 'victor123', 'L', 'wonogiri', '1 Januari 2003', 'casablanca', 'bekasi', 'piktor@gmail.com', 8123456, 'piktor.jpg', '23 Oktober 2023', 'ktppiktor.jpg', 't1'),
+(1234567, 'rehan', 'rehan123', 'L', 'jakarta', '5 Januari 2003', 'cikampek', 'bekasi', 'kecap@gmail.com', 812345678, 'rehan.jpg', '24 Oktober 2023', 'ktprehan.jpg', 't1');
 
 -- --------------------------------------------------------
 
@@ -158,8 +160,7 @@ CREATE TABLE `tahapan` (
 INSERT INTO `tahapan` (`idtahapan`, `nama`) VALUES
 ('t1', 'apply'),
 ('t2', 'seleksi administrasi'),
-('t3', 'seleleksi wawancara'),
-('t4', 'tidak lolos');
+('t3', 'seleleksi wawancara');
 
 -- --------------------------------------------------------
 
@@ -180,7 +181,7 @@ CREATE TABLE `tahapan_apply` (
 --
 
 INSERT INTO `tahapan_apply` (`No`, `idapply`, `idtahapan`, `nilai`, `tgl_update`) VALUES
-(1, 'apply01', 't2', 'A', '22 Oktober 2023');
+(1, 'apply01', 't3', 'A', '23 Oktober 2023');
 
 --
 -- Indexes for dumped tables
@@ -242,7 +243,7 @@ ALTER TABLE `tahapan_apply`
 -- AUTO_INCREMENT for table `pencaker`
 --
 ALTER TABLE `pencaker`
-  MODIFY `noktp` int(17) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12346;
+  MODIFY `noktp` int(17) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1234568;
 
 --
 -- AUTO_INCREMENT for table `tahapan_apply`
