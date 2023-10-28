@@ -18,26 +18,66 @@ if (isset($_POST['action'])) {
     $noktp = $_POST['noktp'];
     $action = $_POST['action'];
 
-    if ($action == 'lolos') {
-        // Update tahapan applier menjadi 't2'
-        $updateQuery = "UPDATE tahapan_apply SET idtahapan = 't2' WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp')";
-        $result = $db->query($updateQuery);
-    } elseif ($action == 'tidak_lolos') {
-        // Hapus applier dari tahapan_apply
-        $deleteQuery = "DELETE FROM tahapan_apply WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp')";
-        $result = $db->query($deleteQuery);
+    // Query untuk mengambil idloker berdasarkan noktp
+    $queryIdLoker = "SELECT idloker FROM apply_loker WHERE noktp = '$noktp'";
+    $resultIdLoker = $db->query($queryIdLoker);
+
+    if (!$resultIdLoker) {
+        die("Could not query the database: <br />" . $db->error . "<br>Query:" . $queryIdLoker);
     }
-    header("Location: seleksi_administrasi.php?idloker=$idloker");
+
+    if ($resultIdLoker->num_rows == 1) {
+        $rowIdLoker = $resultIdLoker->fetch_object();
+        $idloker = $rowIdLoker->idloker;
+
+        if ($action == 'lolos') {
+            // Update tahapan applier menjadi 't2'
+            $updateQuery = "UPDATE tahapan_apply SET idtahapan = 't2' WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp')";
+            $result = $db->query($updateQuery);
+        } elseif ($action == 'tidak_lolos') {
+            // Hapus applier dari tahapan_apply
+            $deleteQuery = "DELETE FROM tahapan_apply WHERE idapply = (SELECT idapply FROM apply_loker WHERE noktp = '$noktp')";
+            $result = $db->query($deleteQuery);
+        }
+        header("Location: ./Seleksi/seleksi_administrasi.php?idloker=$idloker");
+    } else {
+        echo "Loker tidak ditemukan.";
+    }
 }
 
 ?>
 
+
 <?php include('header.html') ?>
+
+<?php 
+if (isset($_GET['noktp'])) {
+    $noktp = $_GET['noktp'];
+
+    // Query untuk mengambil idloker berdasarkan noktp
+    $queryIdLoker = "SELECT DISTINCT apply_loker.idloker
+                    FROM apply_loker
+                    WHERE apply_loker.noktp = '$noktp'";
+    $resultIdLoker = $db->query($queryIdLoker);
+
+    if (!$resultIdLoker) {
+        die("Could not query the database: <br />" . $db->error . "<br>Query:" . $queryIdLoker);
+    }
+
+    if ($resultIdLoker->num_rows > 0) {
+        // Loop melalui hasil query untuk mengambil idloker yang sesuai
+        $idLokerArray = array();
+        while ($rowIdLoker = $resultIdLoker->fetch_object()) {
+            $idLokerArray[] = $rowIdLoker->idloker;
+        }
+    }
+}
+?>
 
 <?php
 if (isset($_GET['noktp'])) {
     $noktp = $_GET['noktp'];
-
+    
     // Query untuk mengambil data lengkap applier berdasarkan Nomor KTP
     $query = "SELECT pencaker.*, tahapan.nama as tahapan
               FROM pencaker

@@ -18,7 +18,7 @@ if (isset($_GET['idloker'])) {
                         FROM apply_loker
                         JOIN pencaker ON apply_loker.noktp = pencaker.noktp
                         LEFT JOIN tahapan_apply ON apply_loker.idapply = tahapan_apply.idapply
-                        WHERE apply_loker.idloker = $idloker AND tahapan_apply.idtahapan = 't1'";
+                        WHERE apply_loker.idloker = '$idloker' AND tahapan_apply.idtahapan = 't1'";
 
     $result = $db->query($query);
 

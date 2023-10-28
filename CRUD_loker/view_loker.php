@@ -9,7 +9,7 @@ if (isset($_GET['idloker'])) {
     $query = "SELECT loker.*, perusahaan.nama AS nama_perusahaan
               FROM loker
               JOIN perusahaan ON loker.idperusahaan = perusahaan.idperusahaan
-              WHERE loker.idloker = $idloker";
+              WHERE loker.idloker = '$idloker'";
     $result = $db->query($query);
 
     if (!$result) {

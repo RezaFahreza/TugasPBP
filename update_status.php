@@ -1,5 +1,5 @@
 <?php
-require_once("./db_login.php");
+require_once("db_login.php");
 
 if (isset($_GET['idloker'])) {
     $idloker = $_GET['idloker'];

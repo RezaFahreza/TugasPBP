@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2023 at 08:35 PM
+-- Generation Time: Oct 28, 2023 at 04:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -70,7 +70,7 @@ CREATE TABLE `loker` (
 --
 
 INSERT INTO `loker` (`idloker`, `idperusahaan`, `nama`, `tipe`, `usia_min`, `usia_max`, `gaji_min`, `gaji_max`, `nama_cp`, `email_cp`, `no_telp_cp`, `tgl_update`, `tgl_aktif`, `tgl_tutup`, `status`) VALUES
-('1', 'p1', 'IT Support', 'full-time', 18, 40, 2000, 8000, 'rozak', 'rozak@gmail.com', 81234, '22 Oktober 2023', '29 Oktober 2023', '5 November 2023', '1');
+('1', 'p1', 'IT Support', 'full-time', 18, 40, 2000, 8000, 'rozak', 'rozak@gmail.com', 81234, '22 Oktober 2023', '30 Oktober 2023', '5 November 2023', 'Aktif');
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,7 @@ CREATE TABLE `pencaker` (
 --
 
 INSERT INTO `pencaker` (`noktp`, `nama`, `password`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `kota`, `email`, `no_telp`, `foto`, `tgl_daftar`, `file_ktp`, `idtahapan`) VALUES
-(12345, 'Victor', 'victor123', 'L', 'Wonogiri', '1 Januari 2003', 'Solo, kartosuro', 'Semarang', 'piktor@gmail.com', 8123456, 'piktor.jpg', '23 Oktober 2023', 'ktppiktor.jpg', 't1');
+(12345, 'piktor', 'victor123', 'L', 'wonogiri', '1 Januari 2003', 'casablanca', 'bekasi', 'piktor@gmail.com', 8123456, 'piktor.jpg', '23 Oktober 2023', 'ktppiktor.jpg', 't1');
 
 -- --------------------------------------------------------
 
@@ -138,7 +138,7 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`idpetugas`, `nama`, `email`, `password`) VALUES
-('001', 'Daril', 'daril@gmail.com', 'daril123');
+('001', 'Daril', 'daril@gmail.com', 'e29b8cfa61437c9090bac6b4071b8c49');
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,10 @@ CREATE TABLE `tahapan` (
 --
 
 INSERT INTO `tahapan` (`idtahapan`, `nama`) VALUES
-('t1', 'wawancara');
+('t1', 'apply'),
+('t2', 'seleksi administrasi'),
+('t3', 'seleleksi wawancara'),
+('t4', 'tidak lolos');
 
 -- --------------------------------------------------------
 
@@ -165,6 +168,7 @@ INSERT INTO `tahapan` (`idtahapan`, `nama`) VALUES
 --
 
 CREATE TABLE `tahapan_apply` (
+  `No` int(100) NOT NULL,
   `idapply` varchar(20) NOT NULL,
   `idtahapan` varchar(20) NOT NULL,
   `nilai` varchar(20) NOT NULL,
@@ -175,8 +179,8 @@ CREATE TABLE `tahapan_apply` (
 -- Dumping data for table `tahapan_apply`
 --
 
-INSERT INTO `tahapan_apply` (`idapply`, `idtahapan`, `nilai`, `tgl_update`) VALUES
-('apply01', 't1', 'Bagus', '24 Oktober 2023');
+INSERT INTO `tahapan_apply` (`No`, `idapply`, `idtahapan`, `nilai`, `tgl_update`) VALUES
+(1, 'apply01', 't2', 'A', '22 Oktober 2023');
 
 --
 -- Indexes for dumped tables
@@ -187,8 +191,8 @@ INSERT INTO `tahapan_apply` (`idapply`, `idtahapan`, `nilai`, `tgl_update`) VALU
 --
 ALTER TABLE `apply_loker`
   ADD PRIMARY KEY (`idapply`),
-  ADD KEY `idloker` (`idloker`),
-  ADD KEY `noktp` (`noktp`);
+  ADD KEY `noktp` (`noktp`),
+  ADD KEY `idloker` (`idloker`);
 
 --
 -- Indexes for table `loker`
@@ -226,6 +230,7 @@ ALTER TABLE `tahapan`
 -- Indexes for table `tahapan_apply`
 --
 ALTER TABLE `tahapan_apply`
+  ADD PRIMARY KEY (`No`),
   ADD KEY `idtahapan` (`idtahapan`),
   ADD KEY `idapply` (`idapply`);
 
@@ -240,6 +245,12 @@ ALTER TABLE `pencaker`
   MODIFY `noktp` int(17) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12346;
 
 --
+-- AUTO_INCREMENT for table `tahapan_apply`
+--
+ALTER TABLE `tahapan_apply`
+  MODIFY `No` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -247,27 +258,26 @@ ALTER TABLE `pencaker`
 -- Constraints for table `apply_loker`
 --
 ALTER TABLE `apply_loker`
-  ADD CONSTRAINT `apply_loker_ibfk_1` FOREIGN KEY (`idloker`) REFERENCES `loker` (`idloker`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `apply_loker_ibfk_2` FOREIGN KEY (`noktp`) REFERENCES `pencaker` (`noktp`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `apply_loker_ibfk_1` FOREIGN KEY (`idloker`) REFERENCES `loker` (`idloker`);
 
 --
 -- Constraints for table `loker`
 --
 ALTER TABLE `loker`
-  ADD CONSTRAINT `loker_ibfk_1` FOREIGN KEY (`idperusahaan`) REFERENCES `perusahaan` (`idperusahaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `loker_ibfk_1` FOREIGN KEY (`idperusahaan`) REFERENCES `perusahaan` (`idperusahaan`);
 
 --
 -- Constraints for table `pencaker`
 --
 ALTER TABLE `pencaker`
-  ADD CONSTRAINT `pencaker_ibfk_1` FOREIGN KEY (`idtahapan`) REFERENCES `tahapan` (`idtahapan`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pencaker_ibfk_1` FOREIGN KEY (`idtahapan`) REFERENCES `tahapan` (`idtahapan`);
 
 --
 -- Constraints for table `tahapan_apply`
 --
 ALTER TABLE `tahapan_apply`
-  ADD CONSTRAINT `tahapan_apply_ibfk_1` FOREIGN KEY (`idtahapan`) REFERENCES `tahapan` (`idtahapan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tahapan_apply_ibfk_2` FOREIGN KEY (`idapply`) REFERENCES `apply_loker` (`idapply`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tahapan_apply_ibfk_1` FOREIGN KEY (`idtahapan`) REFERENCES `tahapan` (`idtahapan`),
+  ADD CONSTRAINT `tahapan_apply_ibfk_2` FOREIGN KEY (`idapply`) REFERENCES `apply_loker` (`idapply`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
