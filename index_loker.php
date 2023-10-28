@@ -63,7 +63,6 @@ while ($row = $result->fetch_assoc()) {
         <?php
         }
         ?>
-        <a href="daftar_loker.php" class="btn btn-info float-end">Search</a>
         <a href="./CRUD_loker/add_loker.php" class="btn btn-primary float-end">Tambah Loker</a>
     </div>
 </div>
