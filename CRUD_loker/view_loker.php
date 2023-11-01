@@ -73,21 +73,21 @@ if (isset($_GET['idloker'])) {
         die("Could not query the database.");
     }
 
-    // Determine the status of the job listing
-    $status_loker = "";
-    if ($resultTahap1->num_rows >= 0 && $resultTahap2->num_rows == 0 && $resultTahap3->num_rows == 0) {
-        $status_loker = "Aktif";
-    }
-    if ($resultTahap2->num_rows > 0) {
-        $status_loker = "Proses Seleksi";
-    }
-    if ($resultTahap3->num_rows > 0 && $resultTahap2->num_rows == 0) {
-        $status_loker = "Ditutup";
-    }
+    // // Determine the status of the job listing
+    // $status_loker = "";
+    // if ($resultTahap1->num_rows >= 0 && $resultTahap2->num_rows == 0 && $resultTahap3->num_rows == 0) {
+    //     $status_loker = "Aktif";
+    // }
+    // if ($resultTahap2->num_rows > 0) {
+    //     $status_loker = "Proses Seleksi";
+    // }
+    // if ($resultTahap3->num_rows > 0 && $resultTahap2->num_rows == 0) {
+    //     $status_loker = "Ditutup";
+    // }
 
-    // Update the job listing status in the database
-    $updateStatusQuery = "UPDATE loker SET status = '$status_loker', tgl_update = NOW() WHERE idloker = $idloker";
-    $db->query($updateStatusQuery);
+    // // Update the job listing status in the database
+    // $updateStatusQuery = "UPDATE loker SET status = '$status_loker', tgl_update = NOW() WHERE idloker = $idloker";
+    // $db->query($updateStatusQuery);
 // ?>
 
     <?php include('../header.html') ?>
