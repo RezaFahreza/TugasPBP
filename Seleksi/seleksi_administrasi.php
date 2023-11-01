@@ -18,13 +18,78 @@ if (isset($_GET['idloker'])) {
                         FROM apply_loker
                         JOIN pencaker ON apply_loker.noktp = pencaker.noktp
                         LEFT JOIN tahapan_apply ON apply_loker.idapply = tahapan_apply.idapply
-                        WHERE apply_loker.idloker = $idloker AND tahapan_apply.idtahapan = 't1'";
+                        WHERE apply_loker.idloker = '$idloker' AND tahapan_apply.idtahapan = 't1'";
 
     $result = $db->query($query);
 
     if (!$result) {
         die("Could not query the database: <br />" . $db->error . "<br>Query:" . $query);
     }
+
+    // Tahap 1 (Administrasi)
+    $queryTahap1 = "SELECT
+                    apply_loker.noktp,
+                    pencaker.nama,
+                    pencaker.jenis_kelamin,
+                    pencaker.email,
+                    pencaker.no_telp,
+                    pencaker.tgl_daftar
+                    FROM apply_loker
+                    JOIN pencaker ON apply_loker.noktp = pencaker.noktp
+                    LEFT JOIN tahapan_apply ON apply_loker.idapply = tahapan_apply.idapply
+                    WHERE apply_loker.idloker = $idloker AND tahapan_apply.idtahapan = 't1'";
+
+    $resultTahap1 = $db->query($queryTahap1);
+
+    // Tahap 2 (Wawancara)
+    $queryTahap2 = "SELECT
+                    apply_loker.noktp,
+                    pencaker.nama,
+                    pencaker.jenis_kelamin,
+                    pencaker.email,
+                    pencaker.no_telp,
+                    pencaker.tgl_daftar
+                    FROM apply_loker
+                    JOIN pencaker ON apply_loker.noktp = pencaker.noktp
+                    LEFT JOIN tahapan_apply ON apply_loker.idapply = tahapan_apply.idapply
+                    WHERE apply_loker.idloker = $idloker AND tahapan_apply.idtahapan = 't2'";
+
+    $resultTahap2 = $db->query($queryTahap2);
+
+    // Tahap 3 (Lolos Wawancara)
+    $queryTahap3 = "SELECT
+                    apply_loker.noktp,
+                    pencaker.nama,
+                    pencaker.jenis_kelamin,
+                    pencaker.email,
+                    pencaker.no_telp,
+                    pencaker.tgl_daftar
+                    FROM apply_loker
+                    JOIN pencaker ON apply_loker.noktp = pencaker.noktp
+                    LEFT JOIN tahapan_apply ON apply_loker.idapply = tahapan_apply.idapply
+                    WHERE apply_loker.idloker = $idloker AND tahapan_apply.idtahapan = 't3'";
+
+    $resultTahap3 = $db->query($queryTahap3);
+
+    if (!$resultTahap1 || !$resultTahap2 || !$resultTahap3) {
+        die("Could not query the database.");
+    }
+    
+    // Determine the status of the job listing
+    $status_loker = "";
+    if ($resultTahap1->num_rows >= 0 && $resultTahap2->num_rows == 0 && $resultTahap3->num_rows == 0) {
+        $status_loker = "Aktif";
+    }
+    if ($resultTahap2->num_rows > 0) {
+        $status_loker = "Proses Seleksi";
+    }
+    if ($resultTahap3->num_rows > 0 && $resultTahap2->num_rows == 0) {
+        $status_loker = "Ditutup";
+    }
+
+    // Update the job listing status in the database
+    $updateStatusQuery = "UPDATE loker SET status = '$status_loker', tgl_update = NOW() WHERE idloker = $idloker";
+    $db->query($updateStatusQuery);
 ?>
 
     <div class="card mt-5">
@@ -59,7 +124,7 @@ if (isset($_GET['idloker'])) {
                 </tbody>
             </table>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary">Selesaikan Seleksi</a>
+                <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary" onclick="selesaikanSeleksi()">Selesaikan Seleksi</a>
             </div>
         </div>
     </div>

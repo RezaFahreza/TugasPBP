@@ -1,6 +1,6 @@
 <?php
 session_start(); // Initialize session
-require_once('./db_login.php');
+require_once('db_login.php');
 
 // Check if the user has submitted the form
 if (isset($_POST["submit"])) {

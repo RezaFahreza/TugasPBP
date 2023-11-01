@@ -9,7 +9,7 @@ if (isset($_GET['idloker'])) {
     $query = "SELECT loker.*, perusahaan.nama AS nama_perusahaan
               FROM loker
               JOIN perusahaan ON loker.idperusahaan = perusahaan.idperusahaan
-              WHERE loker.idloker = $idloker";
+              WHERE loker.idloker = '$idloker'";
     $result = $db->query($query);
 
     if (!$result) {
@@ -73,25 +73,25 @@ if (isset($_GET['idloker'])) {
         die("Could not query the database.");
     }
 
-    // Determine the status of the job listing
-//     $status_loker = "";
-//     if ($resultTahap1->num_rows >= 0 && $resultTahap2->num_rows == 0 && $resultTahap3->num_rows == 0) {
-//         $status_loker = "Aktif";
-//     }
-//     if ($resultTahap2->num_rows > 0) {
-//         $status_loker = "Proses Seleksi";
-//     }
-//     if ($resultTahap3->num_rows > 0 && $resultTahap2->num_rows == 0) {
-//         $status_loker = "Ditutup";
-//     }
+    // // Determine the status of the job listing
+    // $status_loker = "";
+    // if ($resultTahap1->num_rows >= 0 && $resultTahap2->num_rows == 0 && $resultTahap3->num_rows == 0) {
+    //     $status_loker = "Aktif";
+    // }
+    // if ($resultTahap2->num_rows > 0) {
+    //     $status_loker = "Proses Seleksi";
+    // }
+    // if ($resultTahap3->num_rows > 0 && $resultTahap2->num_rows == 0) {
+    //     $status_loker = "Ditutup";
+    // }
 
-//     // Update the job listing status in the database
-//     $updateStatusQuery = "UPDATE loker SET status = '$status_loker', tgl_update = NOW() WHERE idloker = $idloker";
-//     $db->query($updateStatusQuery);
+    // // Update the job listing status in the database
+    // $updateStatusQuery = "UPDATE loker SET status = '$status_loker', tgl_update = NOW() WHERE idloker = $idloker";
+    // $db->query($updateStatusQuery);
 // ?>
 
     <?php include('../header.html') ?>
-    <div class="card mt-5">
+    <div class="card mt-5" onload="updateStatus()">
         <div class="card-header text-center" style="font-size: 24px; font-weight: bold;">Detail Loker</div>
         <div class="card-body">
             <table class="table">
@@ -134,7 +134,7 @@ if (isset($_GET['idloker'])) {
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td><?php echo $row->status; ?></td>
+                    <td id="status"><?php echo $row->status;?></td>
                 </tr>
                 <tr>
                     <td>
@@ -167,7 +167,7 @@ if (isset($_GET['idloker'])) {
                 </label>
                 <thead>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="../Seleksi/seleksi_administrasi.php?idloker=<?php echo $idloker; ?> " class="btn btn-success">Seleksi</a>
+                        <a href="../Seleksi/seleksi_administrasi.php?idloker=<?php echo $idloker; ?> " class="btn btn-success" onclick="selesaikanSeleksi()">Seleksi</a>
                     </div>
                     <tr>
                         <th>Nomor KTP</th>
@@ -202,7 +202,7 @@ if (isset($_GET['idloker'])) {
                 </label>
                 <thead>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="../Seleksi/seleksi_wawancara.php?idloker=<?php echo $idloker; ?>" class="btn btn-success">Seleksi</a>
+                        <a href="../Seleksi/seleksi_wawancara.php?idloker=<?php echo $idloker; ?>" class="btn btn-success" onclick="selesaikanSeleksi()">Seleksi</a>
                     </div>
                     <tr>
                         <th>Nomor KTP</th>
@@ -262,6 +262,9 @@ if (isset($_GET['idloker'])) {
             </table>
         </div>
     </div>
+    <script>
+        window.reload();
+    </script>
     </body>
 
     </html>
