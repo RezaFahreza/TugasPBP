@@ -50,7 +50,7 @@ if (isset($_GET['idloker'])) {
                         echo "<td>{$apply_row->no_telp}</td>";
                         echo "<td>{$apply_row->tgl_daftar}</td>";
                         echo "<td>
-                            <button type='submit' name='seleksi[{$apply_row->noktp}]' value='lolos' class='btn btn-success'>Lolos Wawancara</button>
+                            <button type='submit' name='seleksi[{$apply_row->noktp}]' value='lolos' class='btn btn-success' onclick='selesaikanSeleksi()'>Lolos Wawancara</button>
                             <button type='submit' name='seleksi[{$apply_row->noktp}]' value='tidak_lolos' class='btn btn-danger'>Tidak Lolos</button>
                         </td>";
                         echo "</tr>";
@@ -58,12 +58,13 @@ if (isset($_GET['idloker'])) {
                     ?>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary">Selesaikan Seleksi</a>
+                    <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary" onclick="selesaikanSeleksi()">Selesaikan Seleksi</a>
                 </div>
                 <input type="hidden" name="idloker" value="<?php echo $idloker; ?>">
             </form>
         </div>
     </div>
+    <script src="../js/ajax.js"></script>
     </body>
 
     </html>

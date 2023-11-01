@@ -59,7 +59,7 @@ if (isset($_GET['idloker'])) {
                 </tbody>
             </table>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary">Selesaikan Seleksi</a>
+                <a href="../CRUD_loker/view_loker.php?idloker=<?php echo $idloker; ?>" class="btn btn-primary" onclick="selesaikanSeleksi()">Selesaikan Seleksi</a>
             </div>
         </div>
     </div>

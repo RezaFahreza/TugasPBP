@@ -137,7 +137,7 @@ if (isset($_GET['noktp'])) {
                         </tr>
                     </table>
                     <div class="form-group mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" name="action" value="lolos" class="btn btn-success">Lolos Administrasi</button>
+                        <button type="submit" name="action" value="lolos" class="btn btn-success" onclick="selesaikanSeleksi()">Lolos Administrasi</button>
                         <button type="submit" name="action" value="tidak_lolos" class="btn btn-danger">Tidak Lolos</button>
                     </div>
                     <input type="hidden" name="noktp" value="<?php echo $noktp; ?>">
